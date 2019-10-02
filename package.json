@@ -1,0 +1,25 @@
+{
+  "name": "aframe-server-simulator",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node simulator.js",
+    "start:dev": "nodemon simulator.js",
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "qualisys-rt": "^0.2.4",
+    "socket.io": "^1.7.4",
+    "ws": "^6.2.1",
+    "body-parser": "latest"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.7"
+  }
+}
