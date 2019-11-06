@@ -7,7 +7,8 @@ function init(io) {
   })
 
   qtmReader.on('frame', function(data) {
-    io.sockets.emit('frame', data)
+    io.sockets.emit('frame', data);
+    console.log('frame data:', data['components']['6dEuler']['rigidBodies'][3]);
   })
 
   qtmReader.on('end', function(data) {
@@ -27,6 +28,10 @@ function init(io) {
     .then(function(version) { return qtmReader.byteOrder(); })
     .then(function(byteOrder) { return qtmReader.getState(); })
     .then(function() { return qtmReader.streamFrames({ frequency: 60, components: ['6DEuler'] }); })
+    // .then(function() { return qtmReader.setParameters(['The_6D']); })
+    // qtmReader.setParameters('The_3D')
+
+
 }
 
 module.exports = init

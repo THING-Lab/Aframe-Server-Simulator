@@ -133,13 +133,14 @@
 
 <script>
   const socket = io('http://localhost:8080')
-  const mocap = false
   const camera = document.getElementById('dCamera');
   socket.on('frame', (data) => {
+    data = data['components']['6dEuler']['rigidBodies'][3];
     console.log("socket data recieved",data);
+    // Need to extract the 6D co-rd from the data blob
     ({x, y, z, euler1, euler2, euler3 } =data);
-    camera.setAttribute('position', `${x} ${y} ${z}`);
-    camera.setAttribute('rotation', `${euler1} ${euler2} ${euler3}`);
+    camera.setAttribute('position', `${x/100} ${y/100} ${z/100}`);
+    camera.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
   })
 </script>
 </html>

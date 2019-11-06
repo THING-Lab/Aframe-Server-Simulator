@@ -8,7 +8,7 @@ const app = express()
 const simulator = http.Server(app)
 const io = socketio(simulator)
 
-const mocap = false
+const mocap = true
 
 
 if (mocap) {
