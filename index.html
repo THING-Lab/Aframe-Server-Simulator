@@ -17,6 +17,10 @@
 
   <a-camera id="dCamera" > </a-camera>
 
+  <a-entity id="anAvatar" scale="2 2 2" geometry="primitive: torusKnot" position="0 6 -10" material="color: magenta; metalness:1; roughness: 0.1; sphericalEnvMap: #sky;">
+    <a-animation easing="linear" attribute="rotation" dur="10000" to="0 0 360" repeat="indefinite"></a-animation>
+  </a-entity>
+
   <!-- Primitives. -->
   <a-sphere
           position="0 0.5 0"
@@ -133,14 +137,33 @@
 
 <script>
   const socket = io('http://localhost:8080')
+  const mocap = false;
   const camera = document.getElementById('dCamera');
+  const firstAvatar = document.getElementById('anAvatar');
   socket.on('frame', (data) => {
-    data = data['components']['6dEuler']['rigidBodies'][3];
     console.log("socket data recieved",data);
-    // Need to extract the 6D co-rd from the data blob
-    ({x, y, z, euler1, euler2, euler3 } =data);
-    camera.setAttribute('position', `${x/100} ${y/100} ${z/100}`);
-    camera.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
+    if(mocap)
+    {
+      // Extracting the 6D co-rd from the data blob
+      data_camera = data['components']['6dEuler']['rigidBodies'][3];
+      ({x, y, z, euler1, euler2, euler3 } = data_camera);
+      camera.setAttribute('position', `${x/100} ${y/100} ${z/100}`);
+      camera.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
+    
+      // Extracting the 6D co-rd from the data blob
+      data_avatar = data['components']['6dEuler']['rigidBodies'][12];
+      ({x, y, z, euler1, euler2, euler3 } = data_avatar);
+      firstAvatar.setAttribute('position', `${x/100} ${y/100} ${z/100}`);
+      firstAvatar.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
+    }
+    else
+    {
+      data_camera = data;
+      ({x, y, z, euler1, euler2, euler3 } = data_camera);
+      camera.setAttribute('position', `${x} ${y} ${z}`);
+      camera.setAttribute('rotation', `${euler1} ${euler2} ${euler3}`);
+    }
+
   })
 </script>
 </html>
