@@ -136,6 +136,14 @@
 </script>
 
 <script>
+  function updatePosition(object, data_6d, objectId) {
+    // Extracting the 6D co-rd from the data blob
+    object_data = data_6d['components']['6dEuler']['rigidBodies'][objectId];
+    ({x, y, z, euler1, euler2, euler3 } = object_data);
+    object.setAttribute('position', `${x/100} ${y/100} ${z/100}`);
+    object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
+  }
+
   const socket = io('http://localhost:8080')
   const mocap = false;
   const camera = document.getElementById('dCamera');
@@ -144,22 +152,12 @@
     console.log("socket data recieved",data);
     if(mocap)
     {
-      // Extracting the 6D co-rd from the data blob
-      data_camera = data['components']['6dEuler']['rigidBodies'][3];
-      ({x, y, z, euler1, euler2, euler3 } = data_camera);
-      camera.setAttribute('position', `${x/100} ${y/100} ${z/100}`);
-      camera.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
-    
-      // Extracting the 6D co-rd from the data blob
-      data_avatar = data['components']['6dEuler']['rigidBodies'][12];
-      ({x, y, z, euler1, euler2, euler3 } = data_avatar);
-      firstAvatar.setAttribute('position', `${x/100} ${y/100} ${z/100}`);
-      firstAvatar.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
+      updatePosition(camera, data, 3);
+      updatePosition(firstAvatar, data, 12);
     }
     else
     {
-      data_camera = data;
-      ({x, y, z, euler1, euler2, euler3 } = data_camera);
+      ({x, y, z, euler1, euler2, euler3 } = data);
       camera.setAttribute('position', `${x} ${y} ${z}`);
       camera.setAttribute('rotation', `${euler1} ${euler2} ${euler3}`);
     }
