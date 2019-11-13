@@ -13,24 +13,26 @@
     <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg" crossorigin="anonymous">
     <script src="/socket.io/socket.io.js"></script>
     <img id="netTexture" src="img/net_texture.jpg" crossorigin="anonymous">
+    <img id="ballTexture" src="img/football_texture.png" crossorigin="anonymous">
   </a-assets>
-
-  <a-camera id="dCamera" > </a-camera>
-
-  <a-entity id="anAvatar" scale="2 2 2" geometry="primitive: torusKnot" position="0 6 -10" material="color: magenta; metalness:1; roughness: 0.1; sphericalEnvMap: #sky;">
-    <a-animation easing="linear" attribute="rotation" dur="10000" to="0 0 360" repeat="indefinite"></a-animation>
+  <a-entity  id="dCamera">
+  <a-camera id="dCamera2" > </a-camera>
   </a-entity>
+  <!-- <a-entity id="anAvatar" scale="2 2 2" geometry="primitive: torusKnot" position="0 6 -10" material="color: magenta; metalness:1; roughness: 0.1; sphericalEnvMap: #sky;">
+    <a-animation easing="linear" attribute="rotation" dur="10000" to="0 0 360" repeat="indefinite"></a-animation>
+  </a-entity> -->
 
   <!-- Primitives. -->
   <a-sphere
-          position="0 0.5 0"
-          radius="0.5"
-          rotation="0 0 0"
-          color="#FFFFFF"
-          src = "#ballTexture"
-          animation="property: rotation; to: 0 360 0; dur: 10000;"
-          animation__mouseenter="property: components.material.material.color; type: color; to: red; startEvents: mouseenter; dur: 500";
-          animation__mouseleave="property: components.material.material.color; type: color; to: white; startEvents: mouseleave; dur: 500";>
+    id="anAvatar"
+    position="0 0.5 0"
+    radius="0.5"
+    rotation="0 0 0"
+    color="#FFFFFF"
+    src = "#ballTexture"
+    animation="property: rotation; to: 0 360 0; dur: 10000;"
+    animation__mouseenter="property: components.material.material.color; type: color; to: red; startEvents: mouseenter; dur: 500";
+    animation__mouseleave="property: components.material.material.color; type: color; to: white; startEvents: mouseleave; dur: 500";>
   </a-sphere>
   <a-plane position="0 .1 -5" rotation="-90 0 0" width="25" height="25" color="#2BC8A4"></a-plane>
 
@@ -41,8 +43,8 @@
   <a-circle src="#groundTexture" rotation="-90 0 0" radius="32"></a-circle>
 
   <!--Tracked controls. -->
-  <a-entity hand-controls="hand: left"></a-entity>
-  <a-entity hand-controls="hand: right"></a-entity>
+  <!-- <a-entity hand-controls="hand: left"></a-entity>
+  <a-entity hand-controls="hand: right"></a-entity> -->
 </a-scene>
 </body>
 
@@ -140,20 +142,20 @@
     // Extracting the 6D co-rd from the data blob
     object_data = data_6d['components']['6dEuler']['rigidBodies'][objectId];
     ({x, y, z, euler1, euler2, euler3 } = object_data);
-    object.setAttribute('position', `${x/100} ${y/100} ${z/100}`);
+    object.setAttribute('position', `${x/50} ${y/50} ${z/50}`);
     object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
   }
 
-  const socket = io('http://localhost:8080')
-  const mocap = false;
+  const socket = io('http://192.168.1.100:80')
+  const mocap = true;
   const camera = document.getElementById('dCamera');
   const firstAvatar = document.getElementById('anAvatar');
   socket.on('frame', (data) => {
     console.log("socket data recieved",data);
     if(mocap)
     {
-      updatePosition(camera, data, 3);
-      updatePosition(firstAvatar, data, 12);
+      updatePosition(camera, data, 15);
+      updatePosition(firstAvatar, data, 45);
     }
     else
     {
