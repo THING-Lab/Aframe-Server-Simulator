@@ -18,20 +18,24 @@ define(function (require) {
         object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
     }
 
-    // const socket = io('http://192.168.1.100:80')
-    const socket = io('http://127.0.0.1:8080')
+    const socket = io('http://192.168.1.100:80')
+    // const socket = io('http://127.0.0.1:8080')
 
     // const mocap = true;
-    const mocap = false;
+    const mocap = true;
 
-    const camera = document.getElementById('dCamera');
+    const camera1 = document.getElementById('camera1');
+    const camera2 = document.getElementById('camera2');
+
     const firstAvatar = document.getElementById('anAvatar');
     socket.on('frame', (data) => {
         console.log("socket data recieved",data);
         if(mocap)
         {
-            updatePosition(camera, data, 15);
-            updatePosition(firstAvatar, data, 45);
+            updatePosition(camera1, data, 0);
+            updatePosition(camera2, data, 1);
+
+            // updatePosition(firstAvatar, data, 45);
         }
         else
         {
