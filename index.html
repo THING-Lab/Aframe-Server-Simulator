@@ -5,6 +5,7 @@
   <title>vadapav scene</title>
   <meta name="description" content="vadapav scene">
   <script src="/socket.io/socket.io.js"></script>
+  <script src="/scripts/quaternion.js"></script>
   <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
 </head>
 <body>
@@ -17,8 +18,11 @@
     <img id="ballTexture" src="img/football_texture.png" crossorigin="anonymous">
   </a-assets>
 
-  <a-entity  id="dCamera">
-  <a-camera id="dCamera2" > </a-camera>
+  <a-entity  id="cameraParent">
+  </a-entity>
+
+  <a-entity  id="cameraProxy">
+    <a-camera id="qtmObject" ></a-camera>
   </a-entity>
   <!-- <a-entity id="anAvatar" scale="2 2 2" geometry="primitive: torusKnot" position="0 6 -10" material="color: magenta; metalness:1; roughness: 0.1; sphericalEnvMap: #sky;">
     <a-animation easing="linear" attribute="rotation" dur="10000" to="0 0 360" repeat="indefinite"></a-animation>

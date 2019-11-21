@@ -12,6 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "quaternion": "^1.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "qualisys-rt": "^0.2.4",

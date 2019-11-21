@@ -10,6 +10,8 @@ define(function (require) {
     scene.appendChild(box);
 
 
+    let correction = new Quaternion();
+
     function updatePosition(object, data_6d, objectId) {
         // Extracting the 6D co-rd from the data blob
         let object_data = data_6d['components']['6dEuler']['rigidBodies'][objectId];
@@ -18,20 +20,24 @@ define(function (require) {
         object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
     }
 
-    // const socket = io('http://192.168.1.100:80')
-    const socket = io('http://127.0.0.1:8080')
+    const socket = io('http://192.168.1.100:80')
+    // const socket = io('http://127.0,0,1:8080')
 
-    // const mocap = true;
-    const mocap = false;
+    const mocap = true;
+    const cameraParent = document.getElementById('cameraParent');
+    const cameraProxy = document.getElementById('cameraProxy');
 
-    const camera = document.getElementById('dCamera');
-    const firstAvatar = document.getElementById('anAvatar');
     socket.on('frame', (data) => {
         console.log("socket data recieved",data);
         if(mocap)
         {
-            updatePosition(camera, data, 15);
-            updatePosition(firstAvatar, data, 45);
+
+            let proxy_rotation = cameraProxy.getAttribute('rotation');
+            let main_rotation = cameraParent.getAttribute('rotation');
+            let lerpSpeed = 0.02;
+            let correction = new Quaternion();
+            correction = proxy_rotation* new Quaternion().inverse(main_rotation);
+            updatePosition(cameraProxy, data, 0);
         }
         else
         {
