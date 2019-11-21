@@ -1,5 +1,4 @@
 define(function (require) {
-    console.log("Heyyyy")
     var scene = document.querySelector('a-scene');
     var box = document.createElement('a-box');
     box.setAttribute('color', 'yellow');
@@ -15,7 +14,7 @@ define(function (require) {
         // Extracting the 6D co-rd from the data blob
         let object_data = data_6d['components']['6dEuler']['rigidBodies'][objectId];
         ({x, y, z, euler1, euler2, euler3 } = object_data);
-        object.setAttribute('position', `${x/50} ${y/50} ${z/50}`);
+        object.setAttribute('position', `${y/50} ${z/50} ${x/50}`);
         object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
     }
 
