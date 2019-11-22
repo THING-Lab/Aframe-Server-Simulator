@@ -28,15 +28,23 @@ define(function (require) {
     const cameraProxy = document.getElementById('cameraProxy');
 
     socket.on('frame', (data) => {
-        console.log("socket data recieved",data);
+        // console.log("socket data recieved",data);
         if(mocap)
         {
+            // // Calculate the difference in rotation between the proxy rotation and current main camera rotation
+            // Quaternion correction = cameraProxy.transform.rotation * Quaternion.Inverse(mainCamera.transform.localRotation);
+            // // Set the rotation value of this camera to be a portion of the offset, over time this will correct slowly
+            // transform.rotation = Quaternion.Lerp(transform.rotation, correction, lerpSpeed);
+            // // copy the transform position
+            // transform.position = cameraProxy.transform.position;
 
             let proxy_rotation = cameraProxy.getAttribute('rotation');
             let main_rotation = cameraParent.getAttribute('rotation');
             let lerpSpeed = 0.02;
-            let correction = new Quaternion();
-            correction = proxy_rotation* new Quaternion().inverse(main_rotation);
+            let correction = proxy_rotation* new Quaternion().inverse(main_rotation);
+            const rtn = new Quaternion().slerp(correction, lerpSpeed);
+            // console.log(proxy_rotation, main_rotation, correction, rtn);
+            console.log(rtn);
             updatePosition(cameraProxy, data, 0);
         }
         else

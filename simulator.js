@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 })
 
 simulator.listen(80, '0.0.0.0', () => {
-  console.log('listening on 8080')
+  console.log('listening on default')
 })
 
 // simulator.listen(8080, '127.0.0.1', () => {
