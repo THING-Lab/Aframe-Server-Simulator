@@ -48,14 +48,23 @@ define(function (require) {
     })
 
     document.querySelector('#second-user').addEventListener('click', function() {
-        console.log("Clicked")
+        console.log("2nd Clicked")
         document.querySelector('#second-user').setAttribute('visible', 'false')
+        document.querySelector('#first-user').setAttribute('visible', 'false')
         document.getElementById('cam1').remove()
         var cam2 = document.createElement("a-camera");
         cam2.setAttribute('id', 'cam2');
         let parent = document.getElementById('object2');
         parent.appendChild(cam2);
 
+
+    });
+
+
+    document.querySelector('#first-user').addEventListener('click', function() {
+        console.log("1st Clicked")
+        document.querySelector('#second-user').setAttribute('visible', 'false')
+        document.querySelector('#first-user').setAttribute('visible', 'false')
 
     });
 });
