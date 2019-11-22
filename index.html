@@ -9,6 +9,7 @@
 </head>
 <body>
 <a-scene>
+  <a-entity id="second-user" geometry="primitive: box" material="color: red" position="0 0 2"></a-entity>
 
   <a-assets>
     <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg" crossorigin="anonymous">
@@ -17,29 +18,47 @@
     <img id="ballTexture" src="img/football_texture.png" crossorigin="anonymous">
   </a-assets>
 
-  <a-entity  id="camera1">
-  <a-camera id="cam1" > </a-camera>
+  <a-entity  id="object1">
+    <a-sphere
+            id="anAvatar1"
+            position="2 0.5 2"
+            radius="0.5"
+            rotation="0 0 0"
+            color="#FFFFFF"
+<!--            src = "#ballTexture"-->
+            animation="property: rotation; to: 0 360 0; dur: 10000;"
+            animation__mouseenter="property: components.material.material.color; type: color; to: red; startEvents: mouseenter; dur: 500";
+            animation__mouseleave="property: components.material.material.color; type: color; to: white; startEvents: mouseleave; dur: 500";>
+    </a-sphere>
+  <a-camera id="cam1" > <a-cursor></a-cursor></a-camera>
   </a-entity>
 
-  <a-entity  id="camera2">
-    <a-camera id="cam2" > </a-camera>
+
+
+  <a-entity  id="object2">
+    <a-camera id="cam2"  visible="false"> <a-cursor></a-cursor></a-camera>
+    <a-sphere
+            id="anAvatar2"
+            position="0 0.5 0"
+            radius="0.5"
+            rotation="0 0 0"
+            color="#FFFFFF"
+            src = "#ballTexture"
+            animation="property: rotation; to: 0 360 0; dur: 10000;"
+            animation__mouseenter="property: components.material.material.color; type: color; to: red; startEvents: mouseenter; dur: 500";
+            animation__mouseleave="property: components.material.material.color; type: color; to: white; startEvents: mouseleave; dur: 500";>
+    </a-sphere>
   </a-entity>
+
+<!--  <a-entity  id="camera2">-->
+<!--    <a-camera id="cam2" > </a-camera>-->
+<!--  </a-entity>-->
   <!-- <a-entity id="anAvatar" scale="2 2 2" geometry="primitive: torusKnot" position="0 6 -10" material="color: magenta; metalness:1; roughness: 0.1; sphericalEnvMap: #sky;">
     <a-animation easing="linear" attribute="rotation" dur="10000" to="0 0 360" repeat="indefinite"></a-animation>
   </a-entity> -->
 
   <!-- Primitives. -->
-  <a-sphere
-    id="anAvatar"
-    position="0 0.5 0"
-    radius="0.5"
-    rotation="0 0 0"
-    color="#FFFFFF"
-    src = "#ballTexture"
-    animation="property: rotation; to: 0 360 0; dur: 10000;"
-    animation__mouseenter="property: components.material.material.color; type: color; to: red; startEvents: mouseenter; dur: 500";
-    animation__mouseleave="property: components.material.material.color; type: color; to: white; startEvents: mouseleave; dur: 500";>
-  </a-sphere>
+
   <a-plane position="0 .1 -5" rotation="-90 0 0" width="25" height="25" color="#2BC8A4"></a-plane>
 
   <!-- Background sky. -->

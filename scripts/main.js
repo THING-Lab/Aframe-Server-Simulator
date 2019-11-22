@@ -18,31 +18,39 @@ define(function (require) {
         object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
     }
 
-    const socket = io('http://192.168.1.100:80')
-    // const socket = io('http://127.0.0.1:8080')
+    // const socket = io('http://192.168.1.100:80')
+    const socket = io('http://127.0.0.1:8080')
 
     // const mocap = true;
-    const mocap = true;
+    const mocap = false;
 
     const camera1 = document.getElementById('camera1');
-    const camera2 = document.getElementById('camera2');
+    // const camera2 = document.getElementById('camera2');
 
     const firstAvatar = document.getElementById('anAvatar');
     socket.on('frame', (data) => {
-        console.log("socket data recieved",data);
+        // console.log("socket data recieved",data);
         if(mocap)
         {
             updatePosition(camera1, data, 0);
-            updatePosition(camera2, data, 1);
+            // updatePosition(camera2, data, 1);
 
             // updatePosition(firstAvatar, data, 45);
         }
         else
         {
             ({x, y, z, euler1, euler2, euler3 } = data);
-            camera.setAttribute('position', `${x} ${y} ${z}`);
-            camera.setAttribute('rotation', `${euler1} ${euler2} ${euler3}`);
+            // camera1.setAttribute('position', `${x} ${y} ${z}`);
+            // camera1.setAttribute('rotation', `${euler1} ${euler2} ${euler3}`);
         }
 
     })
+
+    document.querySelector('#second-user').addEventListener('click', function() {
+        console.log("Clicked")
+        document.querySelector('#second-user').setAttribute('visible', 'false')
+        document.getElementById('cam2').removeAttribute('visible')
+        document.getElementById('cam1').remove()
+
+    });
 });
