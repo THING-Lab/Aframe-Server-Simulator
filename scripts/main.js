@@ -9,28 +9,33 @@ define(function (require) {
     box.setAttribute('src', '#netTexture');
     scene.appendChild(box);
 
-
     let correction = new Quaternion();
 
     function updatePosition(object, data_6d, objectId) {
         // Extracting the 6D co-rd from the data blob
         let object_data = data_6d['components']['6dEuler']['rigidBodies'][objectId];
         ({x, y, z, euler1, euler2, euler3 } = object_data);
-        object.setAttribute('position', `${y/50} ${z/50} ${x/50}`);
-        object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
+        // object.setAttribute('position', `${y/50} ${z/50} ${x/50}`);
+        // object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
     }
 
     const socket = io('http://192.168.1.100:80')
     // const socket = io('http://127.0,0,1:8080')
 
     const mocap = true;
-    const cameraParent = document.getElementById('cameraParent');
-    const cameraProxy = document.getElementById('cameraProxy');
+    // const cameraParent = document.getElementById('cameraParent');
+        // const cameraProxy = document.getElementById('cameraProxy');
+        // const camObj = cameraProxy.object3D;
+        // controls = new DeviceOrientationControls( camObj );
+        // controls.update();
 
     socket.on('frame', (data) => {
         // console.log("socket data recieved",data);
         if(mocap)
         {
+            // console.log("object3d: ",cameraProxy.object3D);
+            // console.log("scene: ",scenee.object3D);
+
             // // Calculate the difference in rotation between the proxy rotation and current main camera rotation
             // Quaternion correction = cameraProxy.transform.rotation * Quaternion.Inverse(mainCamera.transform.localRotation);
             // // Set the rotation value of this camera to be a portion of the offset, over time this will correct slowly
@@ -38,13 +43,13 @@ define(function (require) {
             // // copy the transform position
             // transform.position = cameraProxy.transform.position;
 
-            let proxy_rotation = cameraProxy.getAttribute('rotation');
-            let main_rotation = cameraParent.getAttribute('rotation');
-            let lerpSpeed = 0.02;
-            let correction = proxy_rotation* new Quaternion().inverse(main_rotation);
-            const rtn = new Quaternion().slerp(correction, lerpSpeed);
-            // console.log(proxy_rotation, main_rotation, correction, rtn);
-            console.log(rtn);
+            // let proxy_rotation = cameraProxy.getAttribute('rotation');
+            // let main_rotation = cameraParent.getAttribute('rotation');
+            // let lerpSpeed = 0.02;
+            // let correction = proxy_rotation* new Quaternion().inverse(main_rotation);
+            // const rtn = new Quaternion().slerp(correction, lerpSpeed);
+            // // console.log(proxy_rotation, main_rotation, correction, rtn);
+            // console.log(rtn);
             updatePosition(cameraProxy, data, 0);
         }
         else
