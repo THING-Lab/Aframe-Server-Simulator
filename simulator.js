@@ -8,7 +8,7 @@ const app = express()
 const simulator = http.Server(app)
 const io = socketio(simulator)
 
-const mocap = true
+const mocap = false
 
 
 if (mocap) {
@@ -22,13 +22,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'))
 })
 
-simulator.listen(80, '0.0.0.0', () => {
-  console.log('listening on 8080')
+const listen_port = 80;
+simulator.listen(listen_port, '0.0.0.0', () => {
+  console.log('listening on ', listen_port)
 })
-
-// simulator.listen(8080, '127.0.0.1', () => {
-  // console.log('listening on 8080')
-// })
 
 io.on('connection', (socket) => {
   console.log('socket connected')

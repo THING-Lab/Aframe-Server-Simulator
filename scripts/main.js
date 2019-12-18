@@ -19,10 +19,10 @@ define(function (require) {
     }
 
     const socket = io('http://192.168.1.100:80')
-    // const socket = io('http://127.0.0.1:8080')
+
 
     // const mocap = true;
-    const mocap = true;
+    const mocap = false;
 
 
 
