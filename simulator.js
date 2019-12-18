@@ -26,6 +26,10 @@ simulator.listen(80, '0.0.0.0', () => {
   console.log('listening on 8080')
 })
 
+// simulator.listen(8080, '127.0.0.1', () => {
+  // console.log('listening on 8080')
+// })
+
 io.on('connection', (socket) => {
   console.log('socket connected')
   let flag = 0;

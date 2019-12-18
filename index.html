@@ -4,36 +4,61 @@
   <meta charset="utf-8">
   <title>vadapav scene</title>
   <meta name="description" content="vadapav scene">
+  <script src="/socket.io/socket.io.js"></script>
   <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
 </head>
 <body>
 <a-scene>
+  <a-entity id="second-user" geometry="primitive: box" material="color: red" position="0 2 4"></a-entity>
+  <a-entity id="first-user" geometry="primitive: box" material="color: green" position="0 2 2"></a-entity>
+
   <a-assets>
     <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg" crossorigin="anonymous">
     <img id="skyTexture" src="https://cdn.aframe.io/a-painter/images/sky.jpg" crossorigin="anonymous">
-    <script src="/socket.io/socket.io.js"></script>
     <img id="netTexture" src="img/net_texture.jpg" crossorigin="anonymous">
     <img id="ballTexture" src="img/football_texture.png" crossorigin="anonymous">
   </a-assets>
-  <a-entity  id="dCamera">
-  <a-camera id="dCamera2" > </a-camera>
+
+  <a-entity  id="object1">
+    <a-sphere
+            id="anAvatar1"
+            position="2 0.5 2"
+            radius="0.5"
+            rotation="0 0 0"
+            color="#FFFFFF"
+            <!--src = "#ballTexture"-->
+            animation="property: rotation; to: 0 360 0; dur: 10000;"
+            animation__mouseenter="property: components.material.material.color; type: color; to: red; startEvents: mouseenter; dur: 500";
+            animation__mouseleave="property: components.material.material.color; type: color; to: white; startEvents: mouseleave; dur: 500";>
+    </a-sphere>
+  <a-camera id="cam1" > <a-cursor             color="#FFFFFF"
+    ></a-cursor></a-camera>
   </a-entity>
+
+
+
+  <a-entity  id="object2">
+    <a-sphere
+            id="anAvatar2"
+            position="0 0.5 0"
+            radius="0.5"
+            rotation="0 0 0"
+            color="#FFFFFF"
+            src = "#ballTexture"
+            animation="property: rotation; to: 0 360 0; dur: 10000;"
+            animation__mouseenter="property: components.material.material.color; type: color; to: red; startEvents: mouseenter; dur: 500";
+            animation__mouseleave="property: components.material.material.color; type: color; to: white; startEvents: mouseleave; dur: 500";>
+    </a-sphere>
+  </a-entity>
+
+<!--  <a-entity  id="camera2">-->
+<!--  </a-entity>-->
   <!-- <a-entity id="anAvatar" scale="2 2 2" geometry="primitive: torusKnot" position="0 6 -10" material="color: magenta; metalness:1; roughness: 0.1; sphericalEnvMap: #sky;">
     <a-animation easing="linear" attribute="rotation" dur="10000" to="0 0 360" repeat="indefinite"></a-animation>
   </a-entity> -->
 
   <!-- Primitives. -->
-  <a-sphere
-    id="anAvatar"
-    position="0 0.5 0"
-    radius="0.5"
-    rotation="0 0 0"
-    color="#FFFFFF"
-    src = "#ballTexture"
-    animation="property: rotation; to: 0 360 0; dur: 10000;"
-    animation__mouseenter="property: components.material.material.color; type: color; to: red; startEvents: mouseenter; dur: 500";
-    animation__mouseleave="property: components.material.material.color; type: color; to: white; startEvents: mouseleave; dur: 500";>
-  </a-sphere>
+
   <a-plane position="0 .1 -5" rotation="-90 0 0" width="25" height="25" color="#2BC8A4"></a-plane>
 
   <!-- Background sky. -->
@@ -48,122 +73,6 @@
 </a-scene>
 </body>
 
+<script data-main="scripts/main"  src="scripts/require.js"></script>
 
-<script>
-
-  var scene = document.querySelector('a-scene');
-  var box = document.createElement('a-box');
-  box.setAttribute('color', 'yellow');
-  box.setAttribute('height', '12.5');
-  box.setAttribute('width', '15');
-  box.setAttribute('depth', '1.75');
-  box.setAttribute('position', '0 0 -12.5');
-  box.setAttribute('src', '#netTexture');
-  scene.appendChild(box);
-  /*
-  //initial values
-  let flag = 0;
-  let round_radius = 15;
-  let step_size = 1;
-
-  let x = 0;
-  let y = 2;
-  let z = round_radius;
-
-  let euler1 = 0;
-  let euler2 = 0;
-  let euler3 = 0;
-
-
-  setInterval(function () {
-    const camera = document.getElementById('dCamera');
-    camera.setAttribute('position', `${x} ${y} ${z}`);
-    camera.setAttribute('rotation', `${euler1} ${euler2} ${euler3}`);
-
-    //change the rot and postioon
-
-    // x = x + 2*Math.sin(an_angle);
-    // y = y + 0.5;
-    // z = z + 10*Math.cos(an_angle*Math.PI/180);
-
-    if (flag == 0)
-    {
-      x = x + step_size;
-      z = z - step_size;
-    }
-
-    if (x == round_radius && z == 0)
-    {
-      flag = 1;
-    }
-
-    if (flag == 1)
-    {
-      x = x - step_size;
-      z = z - step_size;
-    }
-
-    if (x == 0 && z == -round_radius)
-    {
-      flag = 2;
-    }
-
-    if (flag == 2)
-    {
-      x = x - step_size;
-      z = z + step_size;
-    }
-
-    if (x == -round_radius && z == 0)
-    {
-      flag = 3;
-    }
-
-    if (flag == 3)
-    {
-      x = x + step_size;
-      z = z + step_size;
-    }
-
-    if (x == 0 && z == round_radius)
-    {
-      flag = 0;
-    }
-
-    // euler1 = euler1 + 1;
-    euler2 = euler2 + 6;
-    // euler3 = euler3 + 0.5;
-  }, 180);
-*/
-</script>
-
-<script>
-  function updatePosition(object, data_6d, objectId) {
-    // Extracting the 6D co-rd from the data blob
-    object_data = data_6d['components']['6dEuler']['rigidBodies'][objectId];
-    ({x, y, z, euler1, euler2, euler3 } = object_data);
-    object.setAttribute('position', `${x/50} ${y/50} ${z/50}`);
-    object.setAttribute('rotation', `${euler2} ${euler3} ${euler1}`);
-  }
-
-  const socket = io('http://192.168.1.100:80')
-  const mocap = true;
-  const camera = document.getElementById('dCamera');
-  const firstAvatar = document.getElementById('anAvatar');
-  socket.on('frame', (data) => {
-    console.log("socket data recieved",data);
-    if(mocap)
-    {
-      updatePosition(camera, data, 15);
-      updatePosition(firstAvatar, data, 45);
-    }
-    else
-    {
-      ({x, y, z, euler1, euler2, euler3 } = data);
-      camera.setAttribute('position', `${x} ${y} ${z}`);
-      camera.setAttribute('rotation', `${euler1} ${euler2} ${euler3}`);
-    }
-
-  })
-</script>
 </html>
